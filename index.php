@@ -8,7 +8,7 @@
 <a href="">Refresh Page</a>
 <p>
 <?php
-
+    // date_default_timezone_set("Asia/Singapore"); // Timezone override
     // File Path
     $filePath = "./files/";
     // Scan directory
@@ -18,7 +18,9 @@
     // Filename Processing
     foreach($fileList as $filename) {
         $fileSize = filesize($filePath . $filename);
-        $fileEntry = array('name' => $filename, 'size' => humanFileSize($fileSize));
+        $fileMod = date("F d Y H:i:s", filemtime($filePath . $filename));
+        // $fileMod = date(DATE_ISO8601, filemtime($filePath . $filename));
+        $fileEntry = array('name' => $filename, 'size' => humanFileSize($fileSize), 'modified' => $fileMod);
         array_push($fileListShow, $fileEntry);
     }
 
@@ -89,13 +91,16 @@ Select file to upload:<br>
 <input type="submit" value="Upload File" name="upload">
 <br><br>
 <p>
-    <?php if (empty($fileList)) { echo "No Files Found In Source Directory!"; } ?>
+<?php if (empty($fileList)) { echo "No Files Found In Source Directory!"; } ?>
 </p>
-
+<p>
+Times shown in <b><?php echo date_default_timezone_get(); ?></b> time.
+</p>
 <table>
 <tr>
     <th>File</th>
     <th>Size</th>
+    <th>Modified</th>
     <th>Download</th>
     <th>Delete</th>
 </tr>
@@ -103,6 +108,7 @@ Select file to upload:<br>
 <tr>
     <td><?php echo $file['name']; ?></td>
     <td><?php echo $file['size']; ?></td>
+    <td><?php echo $file['modified']; ?></td>
     <td><a href="<?php echo "$filePath/{$file['name']}"; ?>" download="<?php echo $file['name']; ?>" class="button">Download</a></td>
     <td><button type="submit" value="<?php echo $file['name']; ?>" name="delete">Delete</button></td>
 </tr>
