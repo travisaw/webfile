@@ -3,11 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="default2.css">
+<link rel="stylesheet" type="text/css" href="index2.css">
 <title>File Manager</title>
 </head>
 <body>
 <h1>File Manager</h1>
+<p>Select file to upload:</p>
+<input type="file" id="fileToUpload"><br>
+<button onclick="uploadFile()">Upload File</button><br><br>
 <button onclick="refreshFiles()">Refresh Files</button><br><br>
 <label id="lblStatus"></label>
 <table id="tblFiles">
@@ -23,6 +26,7 @@ $(document).ready(function() {
 function refreshFiles() {
     loadFiles();
     labelSuccess("Files Refreshed");
+    $('#fileToUpload').val('');
 }
 
 function loadFiles() {
@@ -34,7 +38,6 @@ function loadFiles() {
 function populateFilesTable(data) {
     $("#tblFiles").find("tr:not(:first)").remove();
     $.each(data, function(key, obj) {
-        // console.log(obj);
         var modifiedDate =  new Date(obj['modified']);
         var row = "<tr>";
         row += "<td>" + obj['name'] + "</td>";
@@ -55,31 +58,84 @@ function deleteFile(filename) {
         data: data,
         success: function (data){
             labelSuccess(data['message']);
-            console.log(data);
+            loadFiles();
         },
         error: function (data){
-            labelError(data['responseText']['message']);
-            console.log(data['responseText']);
-            //console.log(data);
+            if (data['responseJSON']) {
+                labelError(data['responseJSON']['message']);
+            }
+            else {
+                labelError("Unknown error encountered");
+            }
         },
         dataType: "json"
     });
 }
 
 function labelSuccess(labelText) {
+    $('#lblStatus').removeClass('lblfail').addClass('lblsuccess');
     $('#lblStatus').html(labelText);
-    $('#lblStatus').addClass("lblsuccess");
     setTimeout(function() {
         $('#lblStatus').html("");
     }, 5000);
 }
 
 function labelError(labelText) {
+    $('#lblStatus').removeClass('lblsuccess').addClass('lblfail');
     $('#lblStatus').html(labelText);
-    $('#lblStatus').addClass("lblfail");
     setTimeout(function() {
         $('#lblStatus').html("");
     }, 5000);
+}
+
+function uploadFile() {
+    if (document.getElementById('fileToUpload').files[0]) {
+        var file = document.getElementById('fileToUpload').files[0];
+        var reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        reader.onload = postFile;
+        //reader.onloadstart = ...
+        // reader.onprogress = postProgress; //... <-- Allows you to update a progress bar.
+        //reader.onabort = ...
+        //reader.onerror = ...
+        //reader.onloadend = ...
+    }
+    else {
+        labelError("Select file to upload!");
+    }
+}
+
+function postFile(event) {
+    var file = document.getElementById('fileToUpload').files[0];
+    var fileData = event.target.result;
+    var fileName = file.name;
+    var fileSize = file.size;
+    var fileMod = file.lastModified;
+    var fileType = file.type;
+    var postData = { data: fileData, name: fileName, size: fileSize, modified: fileMod, type: fileType };
+    $.ajax({
+        type: "POST",
+        url: "uploadfile",
+        data: postData,
+        success: function (data){
+            labelSuccess(data['message']);
+            $('#fileToUpload').val('');
+            loadFiles();
+        },
+        error: function (data){
+            if (data['responseJSON']) {
+                labelError(data['responseJSON']['message']);
+            }
+            else {
+                labelError("Unknown error encountered");
+            }
+        },
+        dataType: "json"
+    });
+}
+
+function postProgress(event) {
+    console.log(event);
 }
 
 </script>
