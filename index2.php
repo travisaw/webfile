@@ -7,15 +7,25 @@
 <title>File Manager</title>
 </head>
 <body>
+<div class="divmain">
 <h1>File Manager</h1>
 <p>Select file to upload:</p>
-<input type="file" id="fileToUpload"><br>
-<button onclick="uploadFile()">Upload File</button><br><br>
-<button onclick="refreshFiles()">Refresh Files</button><br><br>
+<table class="uploadtable">
+<tr>
+<td><input type="file" id="fileToUpload" onchange="updateFileNameLbl()" hidden>
+<label class="button" for="fileToUpload">Select File</label></td>
+<td><label id="lblFileName"></label></td>
+</tr>
+<tr><td><button onclick="uploadFile()">Upload File</button></td><td></td></tr>
+<tr><td><button onclick="refreshFiles()">Refresh Files</button></td><td></td></tr>
+</table>
 <label id="lblStatus"></label>
 <table id="tblFiles">
 <tr><th>File</th><th>Size</th><th>Modified</th><th>Download</th><th>Delete</th></tr>
 </table>
+<br><br><br>
+<p>Having trouble? Try <a href="index">version 1</a> of this tool.</p>
+</div>
 <script src="jquery-3.6.1.min.js"></script>
 <script>
 
@@ -27,6 +37,7 @@ function refreshFiles() {
     loadFiles();
     labelSuccess("Files Refreshed");
     $('#fileToUpload').val('');
+    updateFileNameLbl();
 }
 
 function loadFiles() {
@@ -136,6 +147,16 @@ function postFile(event) {
 
 function postProgress(event) {
     console.log(event);
+}
+
+function updateFileNameLbl() {
+    var filename = $('#fileToUpload')[0].files[0];
+    if (typeof filename !== 'undefined') {
+        $("#lblFileName").text(filename.name);
+    }
+    else {
+        $("#lblFileName").empty();
+    }
 }
 
 </script>

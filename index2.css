@@ -1,9 +1,9 @@
 body
 {
-    background-color: darkgray;
+    background-color: DeepSkyBlue;
     font-family:tahoma;
-    padding-top: 25px;
-    padding-left: 25px;
+    /* height: 100vh;
+    width: 100vw; */
 }
 table, th, td
 {
@@ -22,7 +22,20 @@ label {
     display:inline-block;
 }
 
-.button {
+.divmain {
+    background-color: #fff;
+    padding-top: 2%;
+    padding-right: 5%;
+    padding-bottom: 2%;
+    padding-left: 5%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    margin-right: 5%;
+    margin-left: 5%;
+    text-align: left;
+}
+
+input[type="file"] {
     font: bold 11px Arial;
     text-decoration: none;
     background-color: #EEEEEE;
@@ -34,6 +47,42 @@ label {
     border-left: 1px solid #CCCCCC;
 }
 
+.button {
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    background-color: #FFF;
+    border: 1px solid #000;
+    color: #000;
+    padding: 2px 10px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 16px;
+    transition-duration: 0.2s;
+    border-style: outset;
+}
+
+.button:hover {
+  background-color: #0362b6;
+  color: #FFF;
+}
+
+button {
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    background-color: #FFF;
+    border: 2px solid #000;
+    color: #000;
+    padding: 2px 10px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 16px;
+    transition-duration: 0.2s;
+    border-style: outset;
+}
+
+button:hover {
+  background-color: #0362b6;
+  color: #FFF;
+}
+
 .lblsuccess {
     font-weight: 700;
     color: black;
@@ -43,3 +92,16 @@ label {
     font-weight: 700;
     color: red;
 }
+
+
+.uploadtable {
+    border: 1px solid;
+    border-collapse: collapse;
+    text-align: center;
+}
+/* .uploadtable {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    padding-right: 15px;
+} */
