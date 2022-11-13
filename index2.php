@@ -13,18 +13,19 @@
 <table class="uploadtable">
 <tr>
 <td><input type="file" id="fileToUpload" onchange="updateFileNameLbl()" hidden>
-<label class="button" for="fileToUpload">Select File</label></td>
+<label class="uploadbutton" for="fileToUpload">Select File</label></td>
 <td><label id="lblFileName"></label></td>
 </tr>
-<tr><td><button onclick="uploadFile()">Upload File</button></td><td></td></tr>
-<tr><td><button onclick="refreshFiles()">Refresh Files</button></td><td></td></tr>
+<tr><td><button class="uploadbutton" onclick="uploadFile()">Upload File</button></td><td></td></tr>
+<tr><td><button class="uploadbutton" onclick="refreshFiles()">Refresh Files</button></td><td></td></tr>
 </table>
-<label id="lblStatus"></label>
+<p class="statuslabel"><label id="lblStatus"></label></p>
+<p class="statuslabel">Files:</p>
 <table id="tblFiles">
 <tr><th>File</th><th>Size</th><th>Modified</th><th>Download</th><th>Delete</th></tr>
 </table>
 <br><br><br>
-<p>Having trouble? Try <a href="index">version 1</a> of this tool.</p>
+<p>Trouble with this page? Try <a href="index">version 1</a>.</p>
 </div>
 <script src="jquery-3.6.1.min.js"></script>
 <script>
@@ -54,7 +55,7 @@ function populateFilesTable(data) {
         row += "<td>" + obj['name'] + "</td>";
         row += "<td>" + obj['size'] + "</td>";
         row += "<td>" + modifiedDate.toLocaleString() + "</td>";
-        row += "<td><a href=\"" + obj['path'] + "\" download>Download</a></td>";
+        row += "<td><a class=\"uploadbutton\" href=\"" + obj['path'] + "\" download>Download</a></td>";
         row += "<td><button onclick=\"deleteFile('" + obj['name'] + "')\">Delete</button></td>";
         row += "</tr>";
         $('#tblFiles').append(row);
@@ -132,6 +133,7 @@ function postFile(event) {
             labelSuccess(data['message']);
             $('#fileToUpload').val('');
             loadFiles();
+            updateFileNameLbl();
         },
         error: function (data){
             if (data['responseJSON']) {
