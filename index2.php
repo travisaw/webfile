@@ -20,6 +20,7 @@
 <tr><td><button class="uploadbutton" onclick="uploadFile()">Upload File</button></td><td></td></tr>
 <tr><td><button class="uploadbutton" onclick="refreshFiles()">Refresh Files</button></td><td></td></tr>
 </table>
+<progress id="fileprogress" value="0" max="100" hidden>0%</progress>
 <p class="statuslabel"><label id="lblStatus"></label></p>
 <p class="statuslabel">Files:</p>
 <table id="tblFiles">

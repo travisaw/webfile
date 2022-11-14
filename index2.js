@@ -83,6 +83,9 @@ function updateFileNameLbl() {
     }
     else {
         $("#lblFileName").empty();
+        $("#fileprogress")[0].max = 1;
+        $("#fileprogress")[0].value = 0;
+        $("#fileprogress").hide("slow");
     }
 }
 
@@ -91,17 +94,16 @@ function uploadFile() {
     if (document.getElementById('fileToUpload').files[0]) {
         var file = document.getElementById('fileToUpload').files[0];
         var reader = new FileReader();
+        var progressNode = document.getElementById("fileprogress");
+        $("#fileprogress").show();
         // reader.readAsText(file, 'UTF-8');
         reader.readAsBinaryString(file);  // Read all files as binary instead of reading as text.
         reader.onload = postFile;
         //reader.onloadstart = ...
-        // reader.onprogress = postProgress(event); //... <-- Allows you to update a progress bar.
+        //reader.onprogress = //... <-- Allows you to update a progress bar.
         //reader.onabort = ...
         //reader.onerror = ...
-        //reader.onloadend = ...
-    }
-    else {
-        labelError("Select file to upload!");
+        // reader.onloadend = ...
     }
 }
 
@@ -115,6 +117,19 @@ function postFile(event) {
     var fileType = file.type;
     var postData = { data: fileData, name: fileName, size: fileSize, modified: fileMod, type: fileType };
     $.ajax({
+        xhr: function() {
+            var xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function(evt) {
+                if (evt.lengthComputable) {
+                    // var percentComplete = evt.loaded / evt.total;
+                    // percentComplete = parseInt(percentComplete * 100);
+                    // console.log(percentComplete);
+                    $("#fileprogress")[0].max = evt.total;
+                    $("#fileprogress")[0].value = evt.loaded;
+                }
+            }, false);
+            return xhr;
+        },
         type: "POST",
         url: "uploadfile",
         data: postData,
@@ -134,15 +149,4 @@ function postFile(event) {
         },
         dataType: "json"
     });
-}
-
-// Manages progress bar when uploading file.
-function postProgress(event) {
-    console.log("progress");
-    console.log(event);
-
-    if (event.lengthComputable) {
-        var progress = parseInt( ((event.loaded / event.total) * 100), 10 );
-        console.log(progress);
-    }
 }
