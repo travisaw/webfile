@@ -94,22 +94,28 @@ function uploadFile() {
     if (document.getElementById('fileToUpload').files[0]) {
         var file = document.getElementById('fileToUpload').files[0];
         var reader = new FileReader();
-        var progressNode = document.getElementById("fileprogress");
         $("#fileprogress").show();
+        // console.log(file);
         // reader.readAsText(file, 'UTF-8');
-        reader.readAsBinaryString(file);  // Read all files as binary instead of reading as text.
-        reader.onload = postFile;
+        reader.readAsArrayBuffer(file);  // Read all files as binary instead of reading as text.
+        // reader.readAsBinaryString(file);  // Read all files as binary instead of reading as text.
+        // reader.onload = postFile;
         //reader.onloadstart = ...
         //reader.onprogress = //... <-- Allows you to update a progress bar.
         //reader.onabort = ...
         //reader.onerror = ...
-        // reader.onloadend = ...
+        reader.onloadend = postFile;
     }
 }
 
 // Function used to POST upload data. Called from uploadFile().
 function postFile(event) {
+    // console.log(event);
     var file = document.getElementById('fileToUpload').files[0];
+    var enc = new TextDecoder("utf-8");
+    // var fileData = ArrayBufferToString(event.target.result);
+    // var fileData = toBinString(Uint8Array.from(event.target.result))
+    // var fileData = event.target.result.slice(event.target.result.start, event.target.result.end);
     var fileData = event.target.result;
     var fileName = file.name;
     var fileSize = file.size;
@@ -133,6 +139,7 @@ function postFile(event) {
         type: "POST",
         url: "uploadfile",
         data: postData,
+        // processData: false,
         success: function (data){
             labelSuccess(data['message']);
             $('#fileToUpload').val('');
@@ -150,3 +157,6 @@ function postFile(event) {
         dataType: "json"
     });
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const toBinString = (bytes) => bytes.reduce((str, byte) => str + byte.toString(2).padStart(8, '0'), '');
