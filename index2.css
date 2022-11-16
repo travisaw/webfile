@@ -1,6 +1,6 @@
 
 .divmain {
-    background-color: Azure;
+    background-color: PowderBlue;
     padding-top: 2%;
     padding-right: 5%;
     padding-bottom: 2%;
@@ -37,7 +37,6 @@ a.uploadbutton {
     text-decoration: none;
 }
 
-
 .lblsuccess {
     font-weight: 700;
     color: black;
@@ -60,19 +59,19 @@ table.uploadtable, .uploadtable tr, .uploadtable td {
     text-align: center;
 }
 
-body
-{
+body {
     background-color: DeepSkyBlue;
     font-family:tahoma;
     /* height: 100vh;
     width: 100vw; */
 }
-table, th, td
-{
+
+table, th, td {
     border: 1px solid;
     border-collapse: collapse;
     text-align: center;
 }
+
 th, td {
     padding-top: 2px;
     padding-bottom: 2px;

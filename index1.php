@@ -87,8 +87,7 @@
     }
 ?>
 </p>
-
-<form action="index.php" method="post" enctype="multipart/form-data">
+<form action="index1" method="post" enctype="multipart/form-data">
 Select file to upload:<br>
 <input type="file" name="fileToUpload" id="fileToUpload"><br>
 <input type="submit" value="Upload File" name="upload">

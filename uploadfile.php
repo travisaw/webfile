@@ -4,6 +4,15 @@ require_once 'config.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
+// Get data type and data payload from BASE64 string
+list($dataType, $fileData) = explode(';', $_POST['data']);
+
+// base64-encoded data
+list(, $encodedData) = explode(',', $fileData);
+
+// decode base64-encoded image data
+$decodedData = base64_decode($encodedData);
+
 $filePath = FILE_PATH;
 $result = array();
 $uploadOk = 1;
@@ -35,7 +44,8 @@ else {
         http_response_code(400);
     }
     else {
-        fwrite($fp, $_POST['data']);
+        // fwrite($fp, $_POST['data']);
+        fwrite($fp, $decodedData);
         fclose($fp);
         $result['message'] = "The file $prettyUploadFile has been uploaded.";
     }

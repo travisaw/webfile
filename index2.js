@@ -96,15 +96,27 @@ function uploadFile() {
         var reader = new FileReader();
         $("#fileprogress").show();
         // console.log(file);
-        // reader.readAsText(file, 'UTF-8');
-        reader.readAsArrayBuffer(file);  // Read all files as binary instead of reading as text.
-        // reader.readAsBinaryString(file);  // Read all files as binary instead of reading as text.
+        // reader.readAsText(file, 'UTF-8'); // Read as text
+        // reader.readAsArrayBuffer(file);  // Read all files as array buffer instead of reading as text.
+        reader.readAsDataURL(file);  // Read file as BASE64 instead of reading as text.
+        // reader.readAsBinaryString(file);  // Read all files as binary string instead of reading as text. Still gets encoded as text (UTF-8)
         // reader.onload = postFile;
         //reader.onloadstart = ...
         //reader.onprogress = //... <-- Allows you to update a progress bar.
         //reader.onabort = ...
         //reader.onerror = ...
         reader.onloadend = postFile;
+        // reader.onloadend = function (e) {
+        //     // var arrayBuffer = e.result
+        //     console.log(e);
+        //
+        //     // resolve(bytes);
+        //     // console.log(e);
+        //     // console.log(new Int8Array(e.target.result));
+        // };
+    }
+    else {
+        labelError("Select file to upload!");
     }
 }
 
@@ -112,10 +124,6 @@ function uploadFile() {
 function postFile(event) {
     // console.log(event);
     var file = document.getElementById('fileToUpload').files[0];
-    var enc = new TextDecoder("utf-8");
-    // var fileData = ArrayBufferToString(event.target.result);
-    // var fileData = toBinString(Uint8Array.from(event.target.result))
-    // var fileData = event.target.result.slice(event.target.result.start, event.target.result.end);
     var fileData = event.target.result;
     var fileName = file.name;
     var fileSize = file.size;
@@ -142,6 +150,7 @@ function postFile(event) {
         // processData: false,
         success: function (data){
             labelSuccess(data['message']);
+            // console.log(data);
             $('#fileToUpload').val('');
             loadFiles();
             updateFileNameLbl();
@@ -155,8 +164,6 @@ function postFile(event) {
             }
         },
         dataType: "json"
+        // dataType: "text"
     });
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const toBinString = (bytes) => bytes.reduce((str, byte) => str + byte.toString(2).padStart(8, '0'), '');

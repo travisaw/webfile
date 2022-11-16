@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="index2.css">
+<link rel="stylesheet" type="text/css" href="index2.min.css">
 <title>File Manager</title>
 </head>
 <body>
@@ -30,7 +30,7 @@
 <p>Trouble with this page? Try <a href="index1">version 1</a>.</p>
 </div>
 <script src="jquery-3.6.1.min.js"></script>
-<script src="index2.js"></script>
+<script src="index2.min.js"></script>
 <?php if (LOG_VISIT > 0) {
 echo "
 <script src='https://www.travisty.org/assets/js/sitehit.min.js?v=2'></script>
