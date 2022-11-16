@@ -70,6 +70,8 @@ table, th, td {
     border: 1px solid;
     border-collapse: collapse;
     text-align: center;
+    table-layout: fixed;
+    /* width: 100%;  */
 }
 
 th, td {
@@ -77,6 +79,7 @@ th, td {
     padding-bottom: 2px;
     padding-left: 15px;
     padding-right: 15px;
+    word-wrap: break-word;
 }
 
 label {
