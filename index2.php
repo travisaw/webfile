@@ -36,7 +36,7 @@ echo "
 <script src='https://www.travisty.org/assets/js/sitehit.min.js?v=2'></script>
 <script>
 $(document).ready(function() {
-	window.onload = tHit(1, 1);
+	window.onload = tHit(1, 11);
     $(document).on('click', 'a', function(e){
         var txt = $(e.target).attr('href');
         tLink(1, 'LinkClick', txt);
