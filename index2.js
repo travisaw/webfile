@@ -1,22 +1,24 @@
 
 // When page loads, load list of files.
 $(document).ready(function() {
-    loadFiles();
+    loadFiles(function(){});
 });
 
 // Use when refreshing files. Loads files plus other actions to clean up form.
 function refreshFiles() {
-    loadFiles();
-    labelSuccess("Files Refreshed");
-    $('#fileToUpload').val('');
-    updateFileNameLbl();
+    loadFiles(function() {
+        labelSuccess("Files Refreshed");
+        $('#fileToUpload').val('');
+        updateFileNameLbl();
+    });
 }
 
 // Function to make AJAX call to get list of files.
-function loadFiles() {
-    $.get("getfiles", function(data, status){
+function loadFiles(callback) {
+    $.get("getfiles", function(data, status) {
         populateFilesTable(data);
     });
+    callback();
 }
 
 // Function to take data returned from loadFiles() and populate the file table.
@@ -43,8 +45,9 @@ function deleteFile(filename) {
         url: "deletefile",
         data: data,
         success: function (data){
-            labelSuccess(data['message']);
-            loadFiles();
+            loadFiles(function(){
+                labelSuccess(data['message']);
+            });
         },
         error: function (data){
             if (data['responseJSON']) {
@@ -152,8 +155,9 @@ function postFile(event) {
             labelSuccess(data['message']);
             // console.log(data);
             $('#fileToUpload').val('');
-            loadFiles();
-            updateFileNameLbl();
+            loadFiles(function(){
+                updateFileNameLbl();
+            });
         },
         error: function (data){
             if (data['responseJSON']) {

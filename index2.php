@@ -30,7 +30,7 @@
 <p>Trouble with this page? Try <a href="index1">version 1</a>.</p>
 </div>
 <script src="jquery-3.6.1.min.js"></script>
-<script src="index2.min.js?2"></script>
+<script src="index2.min.js?3"></script>
 <?php if (LOG_VISIT > 0) {
 echo "
 <script src='https://www.travisty.org/assets/js/sitehit.min.js?v=2'></script>
