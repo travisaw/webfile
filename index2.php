@@ -39,7 +39,7 @@ $(document).ready(function() {
 	window.onload = tHit(1, 11);
     $(document).on('click', 'a', function(e){
         var txt = $(e.target).attr('href');
-        tLink(1, 'LinkClick', txt);
+        tLink(11, 'LinkClick', txt);
 	});
 });
 </script>";
