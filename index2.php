@@ -29,7 +29,7 @@
 <br><br><br>
 <p>Trouble with this page? Try <a href="index1">version 1</a>.</p>
 </div>
-<script src="jquery-3.6.1.min.js"></script>
+<script src="jquery-3.7.0.min.js"></script>
 <script src="index2.min.js?3"></script>
 <?php if (LOG_VISIT > 0) {
 echo "
